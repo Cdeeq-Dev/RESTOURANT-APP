@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderType {
+  ROOM_DELIVERY
+  TAKEOUT
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  ON_THE_WAY
+  DELIVERED
+  CANCELLED
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum AdminRole {
+  ADMIN
+  STAFF
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  menuItems   MenuItem[]
+}
+
+model MenuItem {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String
+  price       Int // Price in kobo (1 NGN = 100 kobo) to avoid floating-point errors
+  imageUrl    String?
+  isAvailable Boolean     @default(true)
+  isFeatured  Boolean     @default(false)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+
+  @@index([categoryId])
+  @@index([isAvailable])
+}
+
+model Order {
+  id                  String      @id @default(cuid())
+  orderNumber         String      @unique
+  customerName        String
+  roomNumber          String? // Optional because takeout orders may not have a room number
+  phone               String
+  orderType           OrderType
+  status              OrderStatus @default(PENDING)
+  specialInstructions String?
+  totalAmount         Int // Total amount in kobo
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  items               OrderItem[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id                  String    @id @default(cuid())
+  orderId             String
+  order               Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId          String?
+  menuItem            MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
+  name                String // Historical snapshot of menu item name
+  unitPrice           Int // Historical snapshot of unit price in kobo
+  quantity            Int
+  specialInstructions String?
+
+  @@index([orderId])
+  @@index([menuItemId])
+}
+
+model Reservation {
+  id                String            @id @default(cuid())
+  reservationNumber String            @unique
+  customerName      String
+  phone             String
+  email             String?
+  reservationDate   DateTime
+  guestCount        Int
+  specialRequests   String?
+  status            ReservationStatus @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([reservationDate])
+  @@index([status])
+}
+
+model Admin {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(STAFF)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
