@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { UtensilsCrossed, ShoppingBag, Menu, X, Calendar, Phone } from 'lucide-react';
 import { RESTAURANT_INFO } from '../utils/constants.ts';
+import { useCart } from '../context/CartContext.tsx';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { totalItemsCount } = useCart();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -70,11 +72,13 @@ export const Navbar: React.FC = () => {
             <Link
               to="/cart"
               className="relative p-2.5 rounded-xl bg-slate-900/80 border border-amber-500/20 text-slate-200 hover:text-amber-400 hover:border-amber-500/40 transition-all group"
-              aria-label="View Shopping Cart"
+              aria-label={`View Shopping Cart, ${totalItemsCount} items`}
             >
               <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 text-slate-950 font-bold text-[11px] flex items-center justify-center shadow-md">
-                0
+              <span className={`absolute -top-1 -right-1 w-5 h-5 rounded-full font-bold text-[11px] flex items-center justify-center shadow-md transition-transform ${
+                totalItemsCount > 0 ? 'bg-amber-500 text-slate-950 scale-110' : 'bg-slate-800 text-slate-400 border border-slate-700'
+              }`}>
+                {totalItemsCount}
               </span>
             </Link>
           </div>
@@ -84,11 +88,13 @@ export const Navbar: React.FC = () => {
             <Link
               to="/cart"
               className="relative p-2 rounded-lg bg-slate-900/80 border border-amber-500/20 text-slate-200"
-              aria-label="View Shopping Cart"
+              aria-label={`View Shopping Cart, ${totalItemsCount} items`}
             >
               <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center">
-                0
+              <span className={`absolute -top-1 -right-1 w-4 h-4 rounded-full font-bold text-[10px] flex items-center justify-center ${
+                totalItemsCount > 0 ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+              }`}>
+                {totalItemsCount}
               </span>
             </Link>
             <button
