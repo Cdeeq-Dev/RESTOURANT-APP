@@ -37,7 +37,7 @@ export const FeaturedSection: React.FC = () => {
   }
 
   return (
-    <section className="mb-16 relative">
+    <section className="mb-8 relative">
       <div className="flex items-center justify-between mb-8">
         <div>
           <div className="flex items-center gap-2 text-amber-400 text-xs uppercase font-bold tracking-widest mb-1">

@@ -28,16 +28,16 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-20">
           
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
-              <UtensilsCrossed className="w-6 h-6 stroke-[2.5]" />
+          <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
+              <UtensilsCrossed className="w-5 h-5 stroke-[2.5]" />
             </div>
-            <div>
-              <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-amber-400 transition-colors">
+            <div className="flex flex-col justify-center">
+              <span className="font-serif text-lg sm:text-xl font-bold tracking-tight text-white leading-tight group-hover:text-amber-400 transition-colors">
                 {RESTAURANT_INFO.name}
               </span>
-              <span className="block text-[10px] uppercase tracking-widest text-amber-400/80 font-semibold -mt-1">
-                Luxury Dining & Suites
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-400/90 leading-tight mt-0.5">
+                LUXURY DINING & SUITES
               </span>
             </div>
           </Link>

@@ -75,12 +75,12 @@ export const HomePage: React.FC = () => {
       {/* Restaurant Info Bar */}
       <InfoBar />
 
-      <div id="menu-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <div id="menu-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         {/* Chef's Picks / Featured Dishes */}
         <FeaturedSection />
 
         {/* Menu Header & Category Selection */}
-        <div className="mb-6 pt-6 border-t border-slate-800/80">
+        <div className="mb-6 pt-6 border-t border-amber-500/20">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
               <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">
